@@ -46,21 +46,21 @@ void setup() {
 void reset() {
     int i;
     for(i=0;i<8;++i)
-        digitWrite(pin[i], HIGH);
+        digitalWrite(pin[i], HIGH);
 }
 
 void display(int bitsel, int dig) {
    int i;
    
-   digitWrite(sel[bitsel], LOW);
+   digitalWrite(sel[bitsel], LOW);
    
    for(i=0;i<8;++i)
    {
-       digitWirte(pin[i], dig&1);
+       digitalWrite(pin[i], dig&1);
        dig >>= 1;
    }
    
-   digitWirte(sel[bitsel], HIGH);
+   digitalWrite(sel[bitsel], HIGH);
    
    reset();
 }
