@@ -34,7 +34,7 @@ int getlocalip(char* outip)
   for(i=(ifconf.ifc_len/sizeof(struct ifreq)); i>0; i--)
     {
       ip = inet_ntoa(((struct sockaddr_in*)&(ifreq->ifr_addr))->sin_addr);
-      if(strcmp(ip,”127.0.0.1″)==0) //排除127.0.0.1，继续下一个
+      if(strcmp(ip,"127.0.0.1")==0) //排除127.0.0.1，继续下一个
 	{ ifreq++; continue; }
       strcpy(outip,ip);
       return 0;

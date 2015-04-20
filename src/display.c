@@ -1,5 +1,6 @@
 #include <wiringPi.h>
 #include <stdio.h>
+#include <string.h>
 
 /*数码管映射
 #     __1_
@@ -34,6 +35,14 @@ unsigned int sel[] = {
     0, 2, 3, 12
 };
 
+void reset() {
+    int i;
+    for(i=0;i<4;++i)
+        digitalWrite(sel[i], HIGH);
+    for(i=0;i<8;++i)
+        digitalWrite(pin[i], HIGH);
+}
+
 void setup() {
     int i;
     wiringPiSetup();
@@ -41,26 +50,44 @@ void setup() {
         pinMode(pin[i], OUTPUT);
     for(i=0;i<4;++i)
         pinMode(sel[i], OUTPUT);
-}
-
-void reset() {
-    int i;
-    for(i=0;i<8;++i)
-        digitalWrite(pin[i], HIGH);
+    reset();
 }
 
 void display(int bitsel, int dig) {
    int i;
    int enc = digit[dig]; 
+
    digitalWrite(sel[bitsel], LOW);
-   
    for(i=0;i<8;++i)
    {
        digitalWrite(pin[i], !(enc &1));
        enc >>= 1;
    }
-   
+   delay(2);
    digitalWrite(sel[bitsel], HIGH);
-   //reset(); 
+   reset(); 
 }
 
+void shownum(char *num)
+{
+	int len = strlen(num);
+	int i;
+	for(i=0;i<len;++i)
+		display(4+i-len, num[i]-'0');
+	
+}
+
+void showip(char* ip)
+{
+	char delim[] = ".";
+	char *p;
+	p = strtok(ip, delim);
+	int i;
+	for(i=0;i<300;++i)
+		shownum(p);
+	
+	while(p = strtok(NULL, delim)) {
+		for(i=0;i<300;++i)
+			shownum(p);
+	}
+}
