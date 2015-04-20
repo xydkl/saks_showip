@@ -4,6 +4,8 @@
 需要提前安装wiringPi
 # 开机启动
 sudo cp showip /usr/local/bin/
+
 sudo vim /etc/rc.local
+
 在exit 0 前添加 
 showip &
