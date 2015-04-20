@@ -51,17 +51,16 @@ void reset() {
 
 void display(int bitsel, int dig) {
    int i;
-   
+   int enc = digit[dig]; 
    digitalWrite(sel[bitsel], LOW);
    
    for(i=0;i<8;++i)
    {
-       digitalWrite(pin[i], dig&1);
-       dig >>= 1;
+       digitalWrite(pin[i], !(enc &1));
+       enc >>= 1;
    }
    
    digitalWrite(sel[bitsel], HIGH);
-   
-   reset();
+   //reset(); 
 }
 

@@ -1,0 +1,1 @@
+int getlocalip(char* outip);
